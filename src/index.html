@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            const IMG_SRC = "/img"
+
+            const TalkToSlayMax = (route) => {
+                fetch(route, { method: "POST", headers: { "Content-Type" : "application/json" } })
+                    .then(response => response.json())
+                    .then(response => console.log(response));
+            }
+
+            const startRobot = () => {
+                console.log("starting robot");
+                TalkToSlayMax("/start");
+            };
+            
+            const stopRobot = () => {
+                console.log("stop robot");
+                TalkToSlayMax("/stop");
+            };
+
+            const updateImage = () => {
+                try {
+                    const imageDiv = document.querySelector("#robot-cam");
+                    imageDiv.src = `${IMG_SRC}?time=${new Date()}`;
+                } catch (err) { console.warn(err + "\n image div not found") }
+                
+                console.log("got")
+                setTimeout(updateImage, 1000);
+            }
+
+            updateImage();
+        </script>
+    </head>
+    <body>
+        <h2>Robot Page</h2>
+        <img src="/img" alt="img" id="robot-cam">
+        <div class="btn-cont">
+            <button onclick="startRobot()">Start Robot</button>
+            <button onclick="stopRobot()">Stop Robot</button>
+        </div>
+    </body>
+
+    <style>
+        html, body {
+            font-family: sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            place-items: center;
+            gap: 16px;
+        }
+        
+        button {
+            padding: 8px 12px;
+        }
+
+        img {
+            height: 700px;
+        }
+        
+        .btn-cont {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            place-items: center;
+            justify-content: center;
+        }
+    </style>
+</html>
