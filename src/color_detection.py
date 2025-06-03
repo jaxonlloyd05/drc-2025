@@ -7,22 +7,25 @@ def process_frame(frame):
         processed_frame: visualized frame with detected lines highlighted
         finish_detected: boolean indicating if finish line (green) is detected
     """
+    height, width = frame.shape[:2]
+    half_width = width // 2
+    frame = frame[:, :half_width]
     processed_frame = frame.copy()
     height, width = frame.shape[:2]
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # right side of track range
-    blue_lower = np.array([100, 50, 50])
-    blue_upper = np.array([130, 255, 255])
+    blue_lower = np.array([100, 50, 120])
+    blue_upper = np.array([150, 255, 255])
     
     # left side of track range
-    yellow_lower = np.array([17, 62, 118])
-    yellow_upper = np.array([150, 255, 255])
+    yellow_lower = np.array([0, 43, 184])
+    yellow_upper = np.array([46, 98, 254])
     
     # end of track range
-    green_lower = np.array([40, 50, 50])
-    green_upper = np.array([80, 255, 255])
+    green_lower = np.array([40, 26, 116])
+    green_upper = np.array([76])
 
     # mask image for ranges    
     blue_mask = cv2.inRange(hsv_frame, blue_lower, blue_upper)
@@ -30,14 +33,14 @@ def process_frame(frame):
     green_mask = cv2.inRange(hsv_frame, green_lower, green_upper)
     
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray_frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2BGR)  # bgr for displaying image
+    gray_frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2BGR)
     
     combined_mask = cv2.bitwise_or(blue_mask, cv2.bitwise_or(yellow_mask, green_mask))
     processed_frame = np.where(combined_mask[:, :, np.newaxis] > 0, frame, gray_frame)
     
     # look for green
     green_pixels = cv2.countNonZero(green_mask)
-    finish_detected = green_pixels > (width * height * 0.05)  # 5% of frame, increase if motors stop to early
+    finish_detected = green_pixels > (width * height * 0.05)
     
     # steering calc for mid of screen in bottom third
     roi_height = height // 3
@@ -74,14 +77,14 @@ def process_frame(frame):
         blue_x = int(blue_moments["m10"] / blue_moments["m00"])
         # Convert original 0-1 scale to -1 to 1 (shifting left)
         raw_steering = 0.3 - (0.2 * (1 - (blue_x / width)))  # 0.1 to 0.3 range
-        steering_value = (raw_steering * 2) - 1  # Map 0-1 to -1 to 1
+        steering_value = (raw_steering * 2) - 1
         
     # if only yellow steer right (away)
     elif yellow_moments["m00"] > 0:
         yellow_x = int(yellow_moments["m10"] / yellow_moments["m00"])
         # Convert original 0-1 scale to -1 to 1 (shifting right)
         raw_steering = 0.7 + (0.2 * (yellow_x / width))  # 0.7 to 0.9 range
-        steering_value = (raw_steering * 2) - 1  # Map 0-1 to -1 to 1
+        steering_value = (raw_steering * 2) - 1
         
     # Ensure steering value is between -1 and 1
     steering_value = max(-1.0, min(1.0, steering_value))
