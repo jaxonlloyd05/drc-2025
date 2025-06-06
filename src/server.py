@@ -20,7 +20,7 @@ def stop_robot():
     bot.endLoop()
     return { "status" : "stopped" }
 
-@app.route("/calibrate", method=["POST"])
+@app.route("/calibrate", methods=["POST"])
 def calibrate_robot():
     bot.calibrate()
     return { "status": "started" }
