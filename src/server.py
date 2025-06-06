@@ -20,6 +20,11 @@ def stop_robot():
     bot.endLoop()
     return { "status" : "stopped" }
 
+@app.route("/calibrate", method=["POST"])
+def calibrate_robot():
+    bot.calibrate()
+    return { "status": "started" }
+
 @app.route("/img", methods=['POST', 'GET'])
 def send_image():
     return send_file("./img.jpg", mimetype='image/jpeg')

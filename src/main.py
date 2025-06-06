@@ -9,13 +9,19 @@ class SlayMax:
 
     def endLoop (self):
         self.motorController.setServoMotor(angle=0.5)
+        self.motorController.setDrivingMotor(speed=0)
         self.started = False
-        pass
+        self.motorController.off()
 
     def startLoop (self):
         self.motorController.setServoMotor(angle=0.5)
         self.started = True
-        pass
+        self.motorController.on()
+
+    def calibrate (self):
+        self.motorController.setDrivingMotor(speed=0.1)
+        self.motorController.setServoMotor(angle=0.5)
+        self.motorController.on()
 
     def mainLoop (self):
         cap = cv2.VideoCapture("/dev/video0")
@@ -33,10 +39,8 @@ class SlayMax:
             cv2.imwrite("img.jpg", processed_frame)
 
             if (finish):
-                self.motorController.setServoMotor(angle=0.5)
-                self.motorController.setDrivingMotor(speed=0)
-                self.motorController.off()
-                self.started = False
+                self.endLoop()
+                break                   # change this soon just exit loop to stop motor
 
             if (self.started == True):
                 #change drive motor later
