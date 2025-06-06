@@ -34,7 +34,7 @@ class DRCMotorController:
 
 # configure motor controller #
 if __name__ == "__main__":
-    mcrtl = DRCMotorController
+    mcrtl = DRCMotorController(13, 12)
 
     print("Setting Throttle Ranges:")
     mcrtl.setDrivingMotor(speed=0)
