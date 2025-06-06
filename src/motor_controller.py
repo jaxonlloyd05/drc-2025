@@ -47,3 +47,6 @@ if __name__ == "__main__":
 
     input("Ready? (Backwards)")
     mcrtl.setDrivingMotor(speed=-1)
+
+    input("Ready? (End)")
+    
