@@ -36,17 +36,27 @@ class DRCMotorController:
 if __name__ == "__main__":
     mcrtl = DRCMotorController(13, 12)
 
-    print("Setting Throttle Ranges:")
-    mcrtl.setDrivingMotor(speed=0)
+    if (input("config or test (c/t)") == "c"):
+        print("Setting Throttle Ranges:")
+        mcrtl.setDrivingMotor(speed=0)
 
-    input("Ready? (Neutral)")
-    mcrtl.setDrivingMotor(speed=0)
+        input("Ready? (Neutral)")
+        mcrtl.setDrivingMotor(speed=0)
 
-    input("Ready? (Forward)")
-    mcrtl.setDrivingMotor(speed=1)
+        input("Ready? (Forward)")
+        mcrtl.setDrivingMotor(speed=1)
 
-    input("Ready? (Backwards)")
-    mcrtl.setDrivingMotor(speed=-1)
+        input("Ready? (Backwards)")
+        mcrtl.setDrivingMotor(speed=-1)
 
-    input("Ready? (End)")
+        input("Ready? (End)")
+        mcrtl.off()
+    else:
+        val = 0
+        while val >= 0 and val <= 1:
+            mcrtl.setDrivingMotor(speed=val)
+            val = int(input("speed: "))
+        mcrtl.setDrivingMotor(speed=0)
+        mcrtl.off()
+    
     
