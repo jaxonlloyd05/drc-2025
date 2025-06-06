@@ -2,31 +2,12 @@ from gpiozero import Servo, Device
 from gpiozero.pins.rpigpio import RPiGPIOFactory
 from time import sleep
 
-servoRanges = [
-
-]
-
 class DRCMotorController:
     def __init__(self, motorPin, servoPin):
         Device.pin_factory = RPiGPIOFactory()
         # GPIO13 - MOTOR & GPIO12 - SERVO preferable
         self.motor = Servo(motorPin, min_pulse_width=1/1000, max_pulse_width=2/1000)
         self.servo = Servo(servoPin, min_pulse_width=1/1000, max_pulse_width=2/1000)
-
-        # for i in range(-10, 11):
-        #     self.motor.value = i / 10
-        #     print(i / 10)
-        #     sleep(1)
-
-        flag = True
-        while True:
-            if flag:
-                self.motor.value = -1
-            else:
-                self.motor.value = 0
-
-            sleep(3)
-            flag = not flag
 
 
 
@@ -49,3 +30,20 @@ class DRCMotorController:
     def on(self):
         # re-attach if needed
         pass  # gpiozero handles reattachment if value is set again
+
+
+# configure motor controller #
+if __name__ == "__main__":
+    mcrtl = DRCMotorController
+
+    print("Setting Throttle Ranges:")
+    mcrtl.setDrivingMotor(0)
+
+    input("Ready? (Neutral)")
+    mcrtl.setDrivingMotor(0)
+
+    input("Ready? (Forward)")
+    mcrtl.setDrivingMotor(1)
+
+    input("Ready? (Backwards)")
+    mcrtl.setDrivingMotor(-1)
