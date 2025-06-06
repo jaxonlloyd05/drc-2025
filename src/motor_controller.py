@@ -13,10 +13,20 @@ class DRCMotorController:
         self.motor = Servo(motorPin, min_pulse_width=1/1000, max_pulse_width=2/1000)
         self.servo = Servo(servoPin, min_pulse_width=1/1000, max_pulse_width=2/1000)
 
-        for i in range(-10, 11):
-            self.motor.value = i / 10
-            print(i / 10)
-            sleep(1)
+        # for i in range(-10, 11):
+        #     self.motor.value = i / 10
+        #     print(i / 10)
+        #     sleep(1)
+
+        flag = True
+        while True:
+            if flag:
+                self.motor.value = -1
+            else:
+                self.motor.value = 0
+
+            sleep(3)
+            flag = not flag
 
 
 
