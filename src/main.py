@@ -39,7 +39,9 @@ class SlayMax:
             cv2.imwrite("img.jpg", processed_frame)
 
             if (finish):
-                self.endLoop()
+                self.motorController.setServoMotor(angle=0.5)
+                self.motorController.setDrivingMotor(speed=0)
+                self.started = False
                 break                   # change this soon just exit loop to stop motor
 
             if (self.started == True):
