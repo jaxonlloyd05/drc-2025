@@ -10,6 +10,11 @@
                     .then(response => console.log(response));
             }
 
+            const calibrateRobot = () => {
+                console.log("calibrate robot");
+                TalkToSlayMax("/calibrate");
+            }
+
             const startRobot = () => {
                 console.log("starting robot");
                 TalkToSlayMax("/start");
@@ -39,6 +44,7 @@
         <div class="btn-cont">
             <button onclick="startRobot()">Start Robot</button>
             <button onclick="stopRobot()">Stop Robot</button>
+            <button onclick="calibrateRobot()">Calibrate Robot</button>
         </div>
     </body>
 
