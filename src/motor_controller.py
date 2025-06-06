@@ -35,8 +35,8 @@ class DRCMotorController:
 # configure motor controller #
 if __name__ == "__main__":
     mcrtl = DRCMotorController(13, 12)
-
-    if (input("config or test (c/t)") == "c"):
+    userin = input("config or test or servo (c/t/s)")
+    if (userin == "c"):
         print("Setting Throttle Ranges:")
         mcrtl.setDrivingMotor(speed=0)
 
@@ -50,6 +50,13 @@ if __name__ == "__main__":
         mcrtl.setDrivingMotor(speed=-1)
 
         input("Ready? (End)")
+        mcrtl.off()
+    elif (userin == "s"):
+        val = 0.0
+        while val >= -1 and val <= 1:
+            mcrtl.setServoMotor(angle=val)
+            val = float(input("angle: "))
+        mcrtl.setServoMotor(angle=0)
         mcrtl.off()
     else:
         val = 0.0
