@@ -21,8 +21,8 @@ class DRCMotorController:
         """
         Angle: -1 to 1
         """
-        if 0 <= angle <= 0.4:
-            angle = angle + 0.2
+        if -0.05 <= angle <= 0.05:
+            angle = angle + 0.05
 
         self.servo.value = max(-1, min(1, angle))
 
