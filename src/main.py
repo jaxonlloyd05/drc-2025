@@ -41,10 +41,10 @@ class SlayMax:
 
             cv2.imwrite("img.jpg", processed_frame)
 
-            if (finish):
-                self.motorController.setServoMotor(angle=0.5)
-                self.motorController.setDrivingMotor(speed=0)
-                self.started = False
+            # if (finish):
+            #     self.motorController.setServoMotor(angle=0.5)
+            #     self.motorController.setDrivingMotor(speed=0)
+            #     self.started = False
                 
 
             if (self.started == True):
