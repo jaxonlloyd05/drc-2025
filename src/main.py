@@ -17,7 +17,7 @@ class SlayMax:
 
     def startLoop (self):
         self.motorController.setServoMotor(angle=0.5)
-        self.motorController.setDrivingMotor(speed=0.2)
+        self.motorController.setDrivingMotor(speed=0.15)
         self.started = True
         self.motorController.on()
 
