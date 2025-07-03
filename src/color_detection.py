@@ -33,6 +33,7 @@ def process_frame(frame):
     # mask image for ranges    
     blue_mask = cv2.inRange(hsv_frame, blue_lower, blue_upper)
     yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
+
     green_mask = cv2.inRange(hsv_frame, green_lower, green_upper) 
     
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -50,7 +51,11 @@ def process_frame(frame):
     bottom_region = hsv_frame[height - roi_height:height, :]
     
     bottom_blue_mask = cv2.inRange(bottom_region, blue_lower, blue_upper)
+    bottom_blue_mask[:, :half_width] = 0
+
     bottom_yellow_mask = cv2.inRange(bottom_region, yellow_lower, yellow_upper)
+    bottom_yellow_mask[:, half_width:] = 0
+
     
     # find blue and yellow
     blue_moments = cv2.moments(bottom_blue_mask)
@@ -61,6 +66,14 @@ def process_frame(frame):
     
     # Find both lines
     if blue_moments["m00"] > 0 and yellow_moments["m00"] > 0:
+        # adjusted_blue_mask = blue_mask
+        # adjusted_blue_mask[:, :half_width] = 0
+
+        # adjusted_yellow_mask = yellow_mask
+        # adjusted_yellow_mask[:, half_width:] = 0
+
+        # adjusted_blue_moments = ...
+
         blue_x = int(blue_moments["m10"] / blue_moments["m00"])
         yellow_x = int(yellow_moments["m10"] / yellow_moments["m00"])
         
@@ -79,20 +92,19 @@ def process_frame(frame):
     elif blue_moments["m00"] > 0: 
         blue_x = int(blue_moments["m10"] / blue_moments["m00"])
         # Convert original 0-1 scale to -1 to 1 (shifting left)
-        raw_steering = 0.3 - (0.2 * (1 - (blue_x / width)))  # 0.1 to 0.3 range
+        raw_steering = 0.3 - (0.3 * (1 - (blue_x / width)))  # 0 to 0.3 range
         steering_value = (raw_steering * 2) - 1
         
     # if only yellow steer right (away)
     elif yellow_moments["m00"] > 0:
         yellow_x = int(yellow_moments["m10"] / yellow_moments["m00"])
         # Convert original 0-1 scale to -1 to 1 (shifting right)
-        raw_steering = 0.7 + (0.2 * (yellow_x / width))  # 0.7 to 0.9 range
+        raw_steering = 0.7 + (0.3 * (yellow_x / width))  # 0.7 to 1 range
         steering_value = (raw_steering * 2) - 1
         
     # Ensure steering value is between -1 and 1
     steering_value = max(-1.0, min(1.0, steering_value))
     
-    # Add directional indicator to the frame
     cv2.putText(processed_frame, f"Steering: {steering_value:.2f}", (10, 30), 
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
