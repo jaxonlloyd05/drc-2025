@@ -19,12 +19,12 @@ def process_frame(frame):
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # right side of track range
-    blue_lower = np.array([89, 121, 187])
-    blue_upper = np.array([129, 255, 255])
+    blue_lower = np.array([96, 56, 51])
+    blue_upper = np.array([111, 255, 255])
     
     # left side of track range
-    yellow_lower = np.array([26, 0, 192])
-    yellow_upper = np.array([45, 255, 255])
+    yellow_lower = np.array([23, 20, 165])
+    yellow_upper = np.array([53, 175, 255])
     
     # end of track range
     green_lower = np.array([40, 26, 116])
