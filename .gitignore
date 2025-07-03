@@ -1,4 +1,5 @@
 /src/img.jpg
+/src/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -10,9 +11,7 @@ __pycache__/
 
 # Virtual environments
 venv/
-env/
-.venv/
-.env/
+.env
 
 # pipenv
 Pipfile.lock

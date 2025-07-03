@@ -9,28 +9,31 @@ def process_frame(frame):
     """
     height, width = frame.shape[:2]
     half_width = width // 2
+
     frame = frame[:, :half_width]
+    frame = cv2.flip(frame, -1)
+
     processed_frame = frame.copy()
     height, width = frame.shape[:2]
     
     hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # right side of track range
-    blue_lower = np.array([100, 50, 120])
-    blue_upper = np.array([150, 255, 255])
+    blue_lower = np.array([89, 121, 187])
+    blue_upper = np.array([129, 255, 255])
     
     # left side of track range
-    yellow_lower = np.array([0, 43, 184])
-    yellow_upper = np.array([46, 98, 254])
+    yellow_lower = np.array([26, 0, 192])
+    yellow_upper = np.array([45, 255, 255])
     
     # end of track range
     green_lower = np.array([40, 26, 116])
-    green_upper = np.array([76])
+    green_upper = np.array([76, 255, 255])
 
     # mask image for ranges    
     blue_mask = cv2.inRange(hsv_frame, blue_lower, blue_upper)
     yellow_mask = cv2.inRange(hsv_frame, yellow_lower, yellow_upper)
-    green_mask = cv2.inRange(hsv_frame, green_lower, green_upper)
+    green_mask = cv2.inRange(hsv_frame, green_lower, green_upper) 
     
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray_frame = cv2.cvtColor(gray_frame, cv2.COLOR_GRAY2BGR)

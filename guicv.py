@@ -1,3 +1,4 @@
+## CV2 COLOUR CONFIGURATION CODE. SOURCED FROM ZAC (OTHER MEMBER FOR UTS) ##
 import cv2
 import numpy as np
 

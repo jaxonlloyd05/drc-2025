@@ -2,6 +2,8 @@ import motor_controller
 import color_detection
 import cv2
 
+# -.2 diff for steering to normalise center
+
 class SlayMax:
     def __init__ (self):
         self.motorController = motor_controller.DRCMotorController(motorPin=13, servoPin=12)
