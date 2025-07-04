@@ -51,10 +51,10 @@ def process_frame(frame):
     bottom_region = hsv_frame[height - roi_height:height, :]
     
     bottom_blue_mask = cv2.inRange(bottom_region, blue_lower, blue_upper)
-    bottom_blue_mask[:, :half_width] = 0
+    # bottom_blue_mask[:, :half_width] = 0
 
     bottom_yellow_mask = cv2.inRange(bottom_region, yellow_lower, yellow_upper)
-    bottom_yellow_mask[:, half_width:] = 0
+    # bottom_yellow_mask[:, half_width:] = 0
 
     
     # find blue and yellow
