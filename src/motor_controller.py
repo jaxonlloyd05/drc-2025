@@ -62,7 +62,7 @@ if __name__ == "__main__":
         mcrtl.off()
     else:
         val = 0.0
-        while val >= 0 and val <= 1:
+        while val >= -1 and val <= 1:
             mcrtl.setDrivingMotor(speed=val)
             val = float(input("speed: "))
         mcrtl.setDrivingMotor(speed=0)
