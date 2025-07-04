@@ -31,8 +31,7 @@ class DRCMotorController:
         self.servo.detach()
 
     def on(self):
-        # re-attach if needed
-        pass  # gpiozero handles reattachment if value is set again
+        pass
 
 
 # configure motor controller #
